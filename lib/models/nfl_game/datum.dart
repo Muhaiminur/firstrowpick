@@ -8,7 +8,7 @@ class NflGameData {
   String? name;
   bool? isPick;
   dynamic url;
-  String? sportId;
+ // String? sportId;
   String? sportName;
   String? eventDate;
   Score? score;
@@ -22,7 +22,7 @@ class NflGameData {
     this.name,
     this.isPick,
     this.url,
-    this.sportId,
+   // this.sportId,
     this.sportName,
     this.eventDate,
     this.score,
@@ -37,7 +37,7 @@ class NflGameData {
       name: json['name'] as String?,
       isPick: json['is_pick'] as bool?,
       url: json['url'] as dynamic,
-      sportId: json['sport_id'] as String?,
+    //  sportId: json['sport_id'] as String?,
       sportName: json['sport_name'] as String?,
       eventDate: json['event_date'] as String?,
       score: json['score'] == null
@@ -61,7 +61,7 @@ class NflGameData {
         'name': name,
         'is_pick': isPick,
         'url': url,
-        'sport_id': sportId,
+     //   'sport_id': sportId,
         'sport_name': sportName,
         'event_date': eventDate,
         'score': score?.toJson(),

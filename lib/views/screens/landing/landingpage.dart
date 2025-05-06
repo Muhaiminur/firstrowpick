@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 import 'package:halftimepick/controllers/home_controller.dart';
 import 'package:halftimepick/controllers/splash_controller.dart';
 import 'package:halftimepick/utils/colors.dart';
+import 'package:halftimepick/utils/shared_pref.dart';
 import 'package:halftimepick/views/custom_widgets/custom_appbar.dart';
+import 'package:halftimepick/views/screens/auth/login.dart';
+import 'package:halftimepick/views/screens/chatPages/chat.dart';
+import 'package:halftimepick/views/screens/fantasy/fantasylist.dart';
 import 'package:halftimepick/views/screens/home/homepage.dart';
 import 'package:halftimepick/views/screens/news/newspage.dart';
-import 'package:halftimepick/views/screens/pickodds/pickoddspage.dart';
-import 'package:halftimepick/views/screens/scores/scorespage.dart';
+import 'package:halftimepick/views/screens/webViewBottom/websiteView.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -21,11 +24,21 @@ class _LandingPageState extends State<LandingPage> {
   final SplashController _splashController = Get.find<SplashController>();
   final HomeController _homeController = Get.find<HomeController>();
   final GlobalKey<ScaffoldState> _landingKey = GlobalKey();
-
+  SharedPref sharedPref = SharedPref();
   bool dialogOpen = false;
+  List<String> userDetail = [];
+
+  Future<List<String>> getUser() async {
+    var userDel = await sharedPref.readStringList("userDet") ?? <String>[];
+    setState(() {
+      userDetail = userDel;
+    });
+    return userDetail;
+  }
 
   @override
   void initState() {
+    getUser();
     super.initState();
   }
 
@@ -37,14 +50,21 @@ class _LandingPageState extends State<LandingPage> {
   final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     const NewsPage(),
-    // const ScoresPage(),
-    const PickOddsPage()
+    const WebsiteView(),
+    const ChatPage(),
+    const FantasyList()
+  ];
+  final List<Widget> _widgetOptions2 = <Widget>[
+    const HomePage(),
+    const NewsPage(),
+    const WebsiteView(),
+    const LoginPage(),
+    const FantasyList()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //  backgroundColor: Colors.black,
       appBar: CustomAppBar(
         scaffoldkey: _landingKey,
         search: false,
@@ -57,8 +77,11 @@ class _LandingPageState extends State<LandingPage> {
             physics: const AlwaysScrollableScrollPhysics(),
             child: GetBuilder<HomeController>(builder: (controller) {
               return Obx(() {
-                return _widgetOptions
-                    .elementAt(_splashController.currentBottom.value);
+                return userDetail.isNotEmpty
+                    ? _widgetOptions
+                        .elementAt(_splashController.currentBottom.value)
+                    : _widgetOptions2
+                        .elementAt(_splashController.currentBottom.value);
               });
             }));
       })),
@@ -75,9 +98,6 @@ class _LandingPageState extends State<LandingPage> {
                 onTap: (value) {
                   setState(() {
                     _splashController.currentBottom.value = value;
-                    // if (_splashController.currentBottom.value == 3) {
-                    //    _splashController.currentGame.value = "NHL";
-                    // }
                     _splashController.update();
                   });
                 },
@@ -104,25 +124,38 @@ class _LandingPageState extends State<LandingPage> {
                       height: 20,
                     ),
                   ),
-                  /*   BottomNavigationBarItem(
-                    label: "Scores",
-                    activeIcon: SvgPicture.asset(
-                      "assets/images/scoresactive.svg",
-                      height: 20,
-                    ),
-                    icon: SvgPicture.asset(
-                      "assets/images/scoreicon.svg",
-                      height: 20,
-                    ),
-                  ), */
                   BottomNavigationBarItem(
-                    label: "Pick/Odds",
+                    label: "Home",
                     activeIcon: SvgPicture.asset(
-                      "assets/images/pickactive.svg",
+                      "assets/images/homeactive.svg",
                       height: 20,
                     ),
                     icon: SvgPicture.asset(
-                      "assets/images/pickicon.svg",
+                      "assets/images/homeicon.svg",
+                      height: 20,
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    label: "Chat",
+                    activeIcon: SvgPicture.asset(
+                      "assets/images/chat.svg",
+                      color: ProjectColors.bottomnavselectedcolor,
+                      height: 20,
+                    ),
+                    icon: SvgPicture.asset(
+                      "assets/images/chat.svg",
+                      height: 20,
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    label: "Special",
+                    activeIcon: SvgPicture.asset(
+                      "assets/images/fantasy.svg",
+                      color: ProjectColors.bottomnavselectedcolor,
+                      height: 20,
+                    ),
+                    icon: SvgPicture.asset(
+                      "assets/images/fantasy.svg",
                       height: 20,
                     ),
                   ),

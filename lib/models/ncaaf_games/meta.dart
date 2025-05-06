@@ -22,7 +22,7 @@ class Meta {
   });
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
-        currentPage: json['current_page'] as int?,
+        currentPage: json['current_page'] ?? 1,
         from: json['from'] as int?,
         lastPage: json['last_page'] as int?,
         links: (json['links'] as List<dynamic>?)

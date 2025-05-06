@@ -16,6 +16,7 @@ class ProjectColors {
   static const grey = Color(0xFF9E9E9E);
   static const promoCodeBG = Color(0xFFDFE7FF);
   static const hint = Color(0xFF94989D);
+  static const textfieldHint = Color(0xFF677294);
   static const hometext = Color(0xFF10161F);
   static const starColor = Color(0xFFE9B911);
   static const homeswitch = Color(0xFF5498F9);

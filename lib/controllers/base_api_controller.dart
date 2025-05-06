@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-
 import 'interceptor.dart';
 
 class BaseApiController extends GetxController with StateMixin<dynamic> {

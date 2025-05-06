@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:halftimepick/controllers/themeController.dart';
 import 'package:halftimepick/utils/colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -13,6 +14,7 @@ class NewsDetailWebView extends StatefulWidget {
 
 class _NewsDetailWebViewState extends State<NewsDetailWebView> {
   final GlobalKey<ScaffoldState> newsdetailkey = GlobalKey();
+  final ThemeController themeController = Get.find<ThemeController>();
   late WebViewController controller;
   var pagetitle = Get.arguments[0];
   var url = Get.arguments[1];
@@ -51,6 +53,8 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:
+          !themeController.isDarkMode.value ? Colors.white : Colors.black,
       appBar: AppBar(
         backgroundColor: ProjectColors.secondaryColor,
         title: Text(
@@ -64,11 +68,12 @@ class _NewsDetailWebViewState extends State<NewsDetailWebView> {
       ),
       body: loaded
           ? WebViewWidget(controller: controller)
-          : const Center(
+          : Center(
               heightFactor: 4,
               child: CupertinoActivityIndicator(
-                color: Colors.grey,
-              ),
+                  color: themeController.isDarkMode.value
+                      ? Colors.white
+                      : Colors.grey),
             ),
     );
   }

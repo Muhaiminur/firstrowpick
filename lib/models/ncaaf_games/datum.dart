@@ -7,22 +7,21 @@ class NcaafGamesData {
   int? id;
   String? name;
   bool? isPick;
-  dynamic url;
-
-  String? sportId;
+  String? url;
+  // int? sportId;
   String? sportName;
   String? eventDate;
   Score? score;
   List<TeamsNormalized>? teamsNormalized;
   Schedule? schedule;
   List<Line>? lines;
-  dynamic message;
+  String? message;
   NcaafGamesData({
     this.id,
     this.name,
     this.isPick,
     this.url,
-    this.sportId,
+    //  this.sportId,
     this.sportName,
     this.eventDate,
     this.score,
@@ -36,8 +35,8 @@ class NcaafGamesData {
       id: json['id'] as int?,
       name: json['name'] as String?,
       isPick: json['is_pick'] as bool?,
-      url: json['url'] as dynamic,
-      sportId: json['sport_id'] as String?,
+      url: json['url'] ?? "",
+      //  sportId: json['sport_id'] as int?,
       sportName: json['sport_name'] as String?,
       eventDate: json['event_date'] as String?,
       score: json['score'] == null
@@ -61,7 +60,7 @@ class NcaafGamesData {
         'name': name,
         'is_pick': isPick,
         'url': url,
-        'sport_id': sportId,
+        // 'sport_id': sportId,
         'sport_name': sportName,
         'event_date': eventDate,
         'score': score?.toJson(),

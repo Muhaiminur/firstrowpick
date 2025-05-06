@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:halftimepick/controllers/home_controller.dart';
 import 'package:halftimepick/controllers/splash_controller.dart';
+import 'package:halftimepick/controllers/themeController.dart';
 import 'package:halftimepick/utils/colors.dart';
+import 'package:halftimepick/utils/routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final HomeController homeController = Get.put(HomeController());
   final SplashController splashController = Get.find<SplashController>();
+  final ThemeController themeController = Get.find<ThemeController>();
   List<String> images = [
     "5.png", //ncaaf
     "7.png", //nfl
@@ -23,22 +25,32 @@ class _HomePageState extends State<HomePage> {
     "6.png", //ncaab
     "4.png", //nhl
     "2.png", //wnba
+    "mls.png", //mls
+    "epl.jpg",
+    "laliga.jpg",
+    "seriaa.png",
+//TODO::commented out as of clients request
+/*     
+    "league1.png",
+    "bundesliga.jpeg",
+    "ucl.png",
+    "uel.png",
+    "wc.png" */
   ];
 
   @override
   void initState() {
-    //  homeController.getAllGames();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Brightness brightness = MediaQuery.of(context).platformBrightness;
     return Column(
       children: [
         GetBuilder<HomeController>(builder: (controller) {
           return controller.gamename.isNotEmpty
               ? ListView.separated(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   primary: false,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -50,60 +62,135 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () {
-                        /*     splashController.selectedGameIndex.value = index;
-                            splashController.currentBottom.value = 1;
-                            splashController.update(); */
-
                         if (controller.gamename.elementAt(index).sportName! ==
                             "NCAA Football") {
-                          splashController.currentBottom.value = 2;
+                          splashController.currentBottom.value = 0;
                           splashController.currentGame.value = "NCAAF";
                           splashController.update();
+                          Get.offAllNamed(gamespage);
                         } else if (controller.gamename
                                 .elementAt(index)
                                 .sportName! ==
                             "NFL") {
-                          splashController.currentBottom.value = 2;
+                          splashController.currentBottom.value = 0;
                           splashController.currentGame.value = "NFL";
                           splashController.update();
+                          Get.offAllNamed(gamespage);
                         } else if (controller.gamename
                                 .elementAt(index)
                                 .sportName! ==
                             "MLB") {
-                          splashController.currentBottom.value = 2;
+                          splashController.currentBottom.value = 0;
                           splashController.currentGame.value = "MLB";
                           splashController.update();
+                          Get.offAllNamed(gamespage);
                         } else if (controller.gamename
                                 .elementAt(index)
                                 .sportName! ==
                             "NBA") {
-                          splashController.currentBottom.value = 2;
+                          splashController.currentBottom.value = 0;
                           splashController.currentGame.value = "NBA";
                           splashController.update();
+                          Get.offAllNamed(gamespage);
                         } else if (controller.gamename
                                 .elementAt(index)
                                 .sportName! ==
                             "NCAA Men's Basketball") {
-                          splashController.currentBottom.value = 2;
+                          splashController.currentBottom.value = 0;
                           splashController.currentGame.value = "NCAAB";
                           splashController.update();
+                          Get.offAllNamed(gamespage);
                         } else if (controller.gamename
                                 .elementAt(index)
                                 .sportName! ==
                             "NHL") {
-                          splashController.currentBottom.value = 2;
+                          splashController.currentBottom.value = 0;
                           splashController.currentGame.value = "NHL";
                           splashController.update();
-                        } else {
-                          splashController.currentBottom.value = 2;
+                          Get.offAllNamed(gamespage);
+                        } else if (controller.gamename
+                                .elementAt(index)
+                                .sportName! ==
+                            "EPL") {
+                          splashController.currentBottom.value = 0;
+                          splashController.currentGame.value = "EPL";
+                          splashController.update();
+                          Get.offAllNamed(gamespage);
+                        } else if (controller.gamename
+                                .elementAt(index)
+                                .sportName! ==
+                            "LIGUE 1") {
+                          splashController.currentBottom.value = 0;
+                          splashController.currentGame.value = "LIGUE 1";
+                          splashController.update();
+                          Get.offAllNamed(gamespage);
+                        } else if (controller.gamename
+                                .elementAt(index)
+                                .sportName! ==
+                            "BUNDESLIGA") {
+                          splashController.currentBottom.value = 0;
+                          splashController.currentGame.value = "BUNDESLIGA";
+                          splashController.update();
+                          Get.offAllNamed(gamespage);
+                        } else if (controller.gamename
+                                .elementAt(index)
+                                .sportName! ==
+                            "LALIGA") {
+                          splashController.currentBottom.value = 0;
+                          splashController.currentGame.value = "LALIGA";
+                          splashController.update();
+                          Get.offAllNamed(gamespage);
+                        } else if (controller.gamename
+                                .elementAt(index)
+                                .sportName! ==
+                            "SERIA A") {
+                          splashController.currentBottom.value = 0;
+                          splashController.currentGame.value = "SERIA A";
+                          splashController.update();
+                          Get.offAllNamed(gamespage);
+                        } else if (controller.gamename
+                                .elementAt(index)
+                                .sportName! ==
+                            "UCL") {
+                          splashController.currentBottom.value = 0;
+                          splashController.currentGame.value = "UCL";
+                          splashController.update();
+                          Get.offAllNamed(gamespage);
+                        } else if (controller.gamename
+                                .elementAt(index)
+                                .sportName! ==
+                            "UEL") {
+                          splashController.currentBottom.value = 0;
+                          splashController.currentGame.value = "UEL";
+                          splashController.update();
+                          Get.offAllNamed(gamespage);
+                        } else if (controller.gamename
+                                .elementAt(index)
+                                .sportName! ==
+                            "FIFA") {
+                          splashController.currentBottom.value = 0;
+                          splashController.currentGame.value = "FIFA";
+                          splashController.update();
+                          Get.offAllNamed(gamespage);
+                        } else if (controller.gamename
+                                .elementAt(index)
+                                .sportName! ==
+                            "WNBA") {
+                          splashController.currentBottom.value = 0;
                           splashController.currentGame.value = "WNBA";
                           splashController.update();
+                          Get.offAllNamed(gamespage);
+                        } else {
+                          splashController.currentBottom.value = 0;
+                          splashController.currentGame.value = "MLS";
+                          splashController.update();
+                          Get.offAllNamed(gamespage);
                         }
                       },
                       child: Container(
                         color: ProjectColors.primaryColor,
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        height: 50,
+                        height: 54,
                         width: double.infinity,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,17 +199,21 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Container(
                                   margin: const EdgeInsets.only(right: 12),
-                                  child: Image.asset(
-                                    "assets/images/${images.elementAt(index)}",
-                                    height: 30,
-                                    width: 30,
+                                  child: ClipOval(
+                                    child: Image.asset(
+                                      "assets/images/${images.elementAt(index)}",
+                                      height: 30,
+                                      width: 30,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                                 Text(
                                   controller.gamename
                                       .elementAt(index)
                                       .sportName!,
-                                  style: const TextStyle(color: Colors.white),
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 16),
                                 ),
                               ],
                             ),
@@ -141,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                   heightFactor: 4,
                   child: Text(
                     "NO GAME AVAILABLE",
-                    style: brightness == Brightness.light
+                    style: !themeController.isDarkMode.value
                         ? const TextStyle(color: Colors.black, fontSize: 16)
                         : const TextStyle(color: Colors.white, fontSize: 16),
                   ),

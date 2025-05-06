@@ -1,166 +1,129 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:halftimepick/controllers/themeController.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:halftimepick/utils/colors.dart';
 import 'package:halftimepick/utils/routes.dart';
+import 'package:halftimepick/views/screens/auth/edit_name.dart';
+import 'package:halftimepick/views/screens/chatPages/mlbchatpage.dart';
+import 'package:halftimepick/views/screens/chatPages/nbachat.dart';
+import 'package:halftimepick/views/screens/chatPages/ncaabchatpage.dart';
+import 'package:halftimepick/views/screens/chatPages/nflchat.dart';
+import 'package:halftimepick/views/screens/chatPages/nhlchatpage.dart';
+import 'package:halftimepick/views/screens/chatPages/mlschatpage.dart';
+import 'package:halftimepick/views/screens/fantasy/fantasyDetail.dart';
+import 'package:halftimepick/views/screens/games/games.dart';
 import 'package:halftimepick/views/screens/home/homepage.dart';
 import 'package:halftimepick/views/screens/landing/landingpage.dart';
+import 'package:halftimepick/views/screens/livegame_page/live.dart';
 import 'package:halftimepick/views/screens/news/newspage.dart';
 import 'package:halftimepick/views/screens/news/newstile/newsdetailweb.dart';
-import 'package:halftimepick/views/screens/pickodds/pickoddspage.dart';
-import 'package:halftimepick/views/screens/scores/scorespage.dart';
 import 'package:halftimepick/views/screens/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    runApp(EasyLocalization(
-        supportedLocales: const [Locale('en'), Locale('my')],
-        path: 'assets/translations',
-        fallbackLocale: const Locale('en'),
-        startLocale: const Locale('en'),
-        saveLocale: true,
-        useOnlyLangCode: true,
-        child: const MyApp()));
-  });
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  Get.put(ThemeController(),
+      permanent:
+          true); // Ensure ThemeController is initialized before running the app
+  runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-
-    ambiguate(WidgetsBinding.instance)!.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    ambiguate(WidgetsBinding.instance)!.removeObserver(this);
-    super.dispose();
-  }
-
-  late AppLifecycleState notification;
-  final navigatorKey = GlobalKey<NavigatorState>();
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    setState(() async {
-      notification = state;
-    });
-    if (kDebugMode) {
-      print("state::${state.name}");
-    }
-    if (state == AppLifecycleState.inactive) {
-      if (kDebugMode) {
-        print("state::${state.name}");
-      }
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  ThemeData _buildTheme(brightness) {
-    var baseTheme = ThemeData(
-      brightness: brightness,
-    );
-
-    return brightness == Brightness.light
-
-        //light mode
-        ? baseTheme.copyWith(
-            scaffoldBackgroundColor: Colors.white,
-            textTheme: GoogleFonts.rubikTextTheme(baseTheme.textTheme).copyWith(
-              headlineMedium:
-                  const TextStyle(fontSize: 16.0, color: Colors.black),
-              headlineLarge:
-                  const TextStyle(fontSize: 20.0, color: Colors.black),
-              titleLarge: const TextStyle(
-                  fontSize: 24.0, color: ProjectColors.textBlack),
-              titleMedium: const TextStyle(
-                  fontSize: 16.0,
-                  color: ProjectColors.textBlack,
-                  overflow: TextOverflow.ellipsis),
-              titleSmall: const TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500,
-                  color: ProjectColors.textBlack),
-              bodySmall: const TextStyle(
-                  fontSize: 12.0,
-                  color: ProjectColors.textBlack,
-                  fontWeight: FontWeight.normal),
-            ),
-          )
-        //dark mode
-        : baseTheme.copyWith(
-            scaffoldBackgroundColor: Colors.black,
-            textTheme: GoogleFonts.rubikTextTheme(baseTheme.textTheme).copyWith(
-              headlineMedium:
-                  const TextStyle(fontSize: 16.0, color: Colors.white),
-              headlineLarge:
-                  const TextStyle(fontSize: 20.0, color: Colors.white),
-              titleLarge: const TextStyle(fontSize: 24.0, color: Colors.white),
-              titleMedium: const TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.white,
-                  overflow: TextOverflow.ellipsis),
-              titleSmall: const TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
-              bodySmall: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.normal),
-            ),
-          );
-  }
+class MyApp extends StatelessWidget {
+  final ThemeController themeController = Get.find<ThemeController>();
 
   @override
   Widget build(BuildContext context) {
-    Brightness brightness = MediaQuery.of(context).platformBrightness;
-    print(brightness.toString());
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: _buildTheme(brightness),
-      themeMode: ThemeMode.system,
-      home: const Splash(),
-      navigatorKey: navigatorKey,
-      getPages: [
-        GetPage(
-          name: homePage,
-          page: () => const HomePage(),
+    return Obx(() {
+      return GetMaterialApp(
+        scaffoldMessengerKey: GlobalKey<ScaffoldMessengerState>(),
+        themeMode:
+            themeController.isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
+        theme: _buildTheme(Brightness.light),
+        darkTheme: _buildTheme(Brightness.dark),
+        navigatorKey: GlobalKey<NavigatorState>(),
+        builder: (BuildContext context, Widget? child) {
+          final mediaQueryData = MediaQuery.of(context);
+          return MediaQuery(
+            data:
+                mediaQueryData.copyWith(textScaler: const TextScaler.linear(1)),
+            child: child!,
+          );
+        },
+        home: const Splash(),
+        getPages: [
+          GetPage(name: homePage, page: () => const HomePage()),
+          GetPage(name: newsPage, page: () => const NewsPage()),
+          GetPage(name: landingpage, page: () => const LandingPage()),
+          GetPage(
+              name: newsdetailwebview, page: () => const NewsDetailWebView()),
+          GetPage(name: gamespage, page: () => const SpecificGamesPage()),
+          GetPage(name: nflchatpage, page: () => const NFLChatPage()),
+          GetPage(name: nbachatpage, page: () => const NBAChatPage()),
+          GetPage(name: mlbchatpage, page: () => const MLBChatPage()),
+          GetPage(name: nhlchatpage, page: () => const NHLChatPage()),
+          GetPage(name: ncaafchatpage, page: () => const NCAABChatPage()),
+          GetPage(name: ncaabchatpage, page: () => const NCAABChatPage()),
+          GetPage(name: mlschatpage, page: () => const MLSChatPage()),
+          GetPage(name: editprofile, page: () => const EditProfilePage()),
+          GetPage(
+              name: fantasyDetailPage, page: () => const FantasyDetailPage()),
+          GetPage(name: livepage, page: () => const LiveGamePage()),
+        ],
+        debugShowCheckedModeBanner: false,
+      );
+    });
+  }
+
+  ThemeData _buildTheme(Brightness brightness) {
+    final baseTheme = ThemeData(brightness: brightness);
+    final textTheme = GoogleFonts.rubikTextTheme(baseTheme.textTheme);
+
+    if (brightness == Brightness.light) {
+      return baseTheme.copyWith(
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: textTheme.copyWith(
+          headlineMedium: const TextStyle(fontSize: 16.0, color: Colors.black),
+          headlineLarge: const TextStyle(fontSize: 20.0, color: Colors.black),
+          titleLarge:
+              const TextStyle(fontSize: 24.0, color: ProjectColors.textBlack),
+          titleMedium: const TextStyle(
+              fontSize: 16.0,
+              color: ProjectColors.textBlack,
+              overflow: TextOverflow.ellipsis),
+          titleSmall: const TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w500,
+              color: ProjectColors.textBlack),
+          bodySmall: const TextStyle(
+              fontSize: 12.0,
+              color: ProjectColors.textBlack,
+              fontWeight: FontWeight.normal),
         ),
-        GetPage(
-          name: newsPage,
-          page: () => const NewsPage(),
+      );
+    } else {
+      return baseTheme.copyWith(
+        scaffoldBackgroundColor: Colors.black,
+        textTheme: textTheme.copyWith(
+          headlineMedium: const TextStyle(fontSize: 16.0, color: Colors.white),
+          headlineLarge: const TextStyle(fontSize: 20.0, color: Colors.white),
+          titleLarge: const TextStyle(fontSize: 24.0, color: Colors.white),
+          titleMedium: const TextStyle(
+              fontSize: 16.0,
+              color: Colors.white,
+              overflow: TextOverflow.ellipsis),
+          titleSmall: const TextStyle(
+              fontSize: 14.0, fontWeight: FontWeight.w500, color: Colors.white),
+          bodySmall: const TextStyle(
+              fontSize: 12.0,
+              color: Colors.white,
+              fontWeight: FontWeight.normal),
         ),
-        GetPage(
-          name: scoresPage,
-          page: () => const ScoresPage(),
-        ),
-        GetPage(
-          name: pickOddsPage,
-          page: () => const PickOddsPage(),
-        ),
-        GetPage(
-          name: landingpage,
-          page: () => const LandingPage(),
-        ),
-        GetPage(name: newsdetailwebview, page: () => const NewsDetailWebView()),
-      ],
-    );
+      );
+    }
   }
 }

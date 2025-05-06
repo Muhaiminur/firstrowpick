@@ -8,7 +8,7 @@ class MlbGameData {
   String? name;
   bool? isPick;
   dynamic url;
-  String? sportId;
+  // String? sportId;
   String? sportName;
   String? eventDate;
   Score? score;
@@ -22,13 +22,14 @@ class MlbGameData {
     this.name,
     this.isPick,
     this.url,
-    this.sportId,
+ //   this.sportId,
     this.sportName,
     this.eventDate,
     this.score,
     this.teamsNormalized,
     this.schedule,
-    this.lines,this.message,
+    this.lines,
+    this.message,
   });
 
   factory MlbGameData.fromJson(Map<String, dynamic> json) => MlbGameData(
@@ -36,7 +37,7 @@ class MlbGameData {
         name: json['name'] as String?,
         isPick: json['is_pick'] as bool?,
         url: json['url'] as dynamic,
-        sportId: json['sport_id'] as String?,
+    //    sportId: json['sport_id'] as String?,
         sportName: json['sport_name'] as String?,
         eventDate: json['event_date'] as String?,
         score: json['score'] == null
@@ -53,7 +54,7 @@ class MlbGameData {
                 ?.map((e) => Line.fromJson(e as Map<String, dynamic>))
                 .toList()
             : <Line>[],
-              message: json['message'] ?? "",
+        message: json['message'] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,13 +62,13 @@ class MlbGameData {
         'name': name,
         'is_pick': isPick,
         'url': url,
-        'sport_id': sportId,
+    //    'sport_id': sportId,
         'sport_name': sportName,
         'event_date': eventDate,
         'score': score?.toJson(),
         'teams_normalized': teamsNormalized?.map((e) => e.toJson()).toList(),
         'schedule': schedule?.toJson(),
         'lines': lines?.map((e) => e.toJson()).toList(),
-           'message': message,
+        'message': message,
       };
 }

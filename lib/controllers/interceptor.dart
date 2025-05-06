@@ -4,11 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as pref;
-import 'package:halftimepick/utils/shared_pref.dart';
 
 class LoggingInterceptors extends InterceptorsWrapper {
   int maxCharactersPerLine = 200;
-  final SharedPref _sharedPref = SharedPref();
   final Dio dio;
 
   LoggingInterceptors({required this.dio});
@@ -21,11 +19,6 @@ class LoggingInterceptors extends InterceptorsWrapper {
   Future<String> getApiHost() async {
     var host = "therundown-therundown-v1.p.rapidapi.com";
     return host;
-  }
-
-  Future<String> getlan() async {
-    String lang = await _sharedPref.readString("language") ?? 'en';
-    return lang.isNotEmpty ? lang : 'en';
   }
 
   @override
@@ -44,7 +37,7 @@ class LoggingInterceptors extends InterceptorsWrapper {
     debugPrint("Content type: ${options.contentType}");
     debugPrint("QueryParams: ${options.queryParameters}");
     debugPrint("Headers: ${options.headers}");
-    debugPrint("Data: ${options.data}");
+    // debugPrint("Data: ${options.data}");
     return super.onRequest(options, handler);
   }
 
@@ -59,8 +52,8 @@ class LoggingInterceptors extends InterceptorsWrapper {
         if (endingIndex > responseAsString.length) {
           endingIndex = responseAsString.length;
         }
-        debugPrint(
-            responseAsString.substring(i * maxCharactersPerLine, endingIndex));
+        /*     debugPrint(
+            responseAsString.substring(i * maxCharactersPerLine, endingIndex)); */
       }
     } else {
       // debugPrint(response.data.toString());

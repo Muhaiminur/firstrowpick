@@ -5,6 +5,7 @@ import 'package:halftimepick/controllers/home_controller.dart';
 import 'package:halftimepick/controllers/splash_controller.dart';
 import 'package:halftimepick/utils/colors.dart';
 import 'package:halftimepick/utils/routes.dart';
+import 'package:halftimepick/utils/shared_pref.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -18,8 +19,10 @@ class _SplashState extends State<Splash> {
     SplashController(),
     permanent: true,
   );
+  final SharedPref sharedPref = SharedPref();
   final HomeController homeController =
       Get.put(HomeController(), permanent: true);
+
   @override
   void initState() {
     super.initState();
