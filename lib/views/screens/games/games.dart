@@ -621,13 +621,14 @@ class _SpecificGamesPageState extends State<SpecificGamesPage> {
                     ),
                   ),
                   BottomNavigationBarItem(
-                    label: "Home",
+                    label: "Premium",
                     activeIcon: SvgPicture.asset(
-                      "assets/images/homeactive.svg",
+                      "assets/images/premium.svg",
+                      color: ProjectColors.bottomnavselectedcolor,
                       height: 20,
                     ),
                     icon: SvgPicture.asset(
-                      "assets/images/homeicon.svg",
+                      "assets/images/premium.svg",
                       height: 20,
                     ),
                   ),

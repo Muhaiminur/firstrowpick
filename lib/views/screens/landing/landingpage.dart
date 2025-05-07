@@ -125,13 +125,14 @@ class _LandingPageState extends State<LandingPage> {
                     ),
                   ),
                   BottomNavigationBarItem(
-                    label: "Home",
+                    label: "Premium",
                     activeIcon: SvgPicture.asset(
-                      "assets/images/homeactive.svg",
+                      "assets/images/premium.svg",
+                      color: ProjectColors.bottomnavselectedcolor,
                       height: 20,
                     ),
                     icon: SvgPicture.asset(
-                      "assets/images/homeicon.svg",
+                      "assets/images/premium.svg",
                       height: 20,
                     ),
                   ),
