@@ -137,7 +137,7 @@ class _LandingPageState extends State<LandingPage> {
                     ),
                   ),
                   BottomNavigationBarItem(
-                    label: "Chat",
+                    label: "Social PK",
                     activeIcon: SvgPicture.asset(
                       "assets/images/chat.svg",
                       color: ProjectColors.bottomnavselectedcolor,

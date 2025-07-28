@@ -31,7 +31,6 @@ class _ChatPageState extends State<ChatPage> {
   final SplashController _splashController = Get.find<SplashController>();
   final EventController eventController = Get.put(EventController());
   List<GamesTab> games = [
-    GamesTab("ALL", false),
     GamesTab("NFL", false),
     GamesTab("NBA", false),
     GamesTab("MLB", false),
